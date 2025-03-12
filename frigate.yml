@@ -1,0 +1,13 @@
+mqtt:
+  host: mqtt
+  port: 1883
+cameras:
+  example_camera:
+    ffmpeg:
+      inputs:
+        - path: rtsp://your_camera_stream
+          roles:
+            - detect
+    detect:
+      width: 1280
+      height: 720
