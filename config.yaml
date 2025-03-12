@@ -1,0 +1,38 @@
+name: "Frigate TensorRT"
+version: "0.15.0"
+slug: "frigate_tensorrt"
+description: "Frigate NVR with TensorRT for NVIDIA GPUs"
+arch:
+  - amd64  # Adjust if your system is different (e.g., aarch64 for Raspberry Pi)
+url: "https://github.com/blakeblackshear/frigate"
+startup: "application"
+boot: "auto"
+image: "ghcr.io/blakeblackshear/frigate:0.15.0-tensorrt"
+ports:
+  "5000/tcp": 5000  # Frigate web UI
+  "1935/tcp": 1935  # RTMP for camera streams
+  "8554/tcp": 8554  # WebRTC (optional, if enabled)
+ports_description:
+  "5000/tcp": "Frigate web interface"
+  "1935/tcp": "RTMP server for camera streams"
+  "8554/tcp": "WebRTC streaming"
+host_network: true  # Required for camera discovery and performance
+devices:
+  - "/dev/nvidia0:/dev/nvidia0"  # Adjust based on your GPU device
+  - "/dev/nvidiactl:/dev/nvidiactl"
+  - "/dev/nvidia-uvm:/dev/nvidia-uvm"
+map:
+  - "config:rw"  # Maps /config to store frigate.yml
+  - "media:rw"   # Maps /media/frigate for recordings
+options:
+  mqtt:
+    host: "mqtt"  # Default MQTT broker (adjust if needed)
+    port: 1883
+    user: ""
+    password: ""
+schema:
+  mqtt:
+    host: "str"
+    port: "int"
+    user: "str?"
+    password: "str?"
